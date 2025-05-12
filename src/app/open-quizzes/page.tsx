@@ -105,7 +105,6 @@ export default function OpenQuizzesPage() {
           imageUrl={profile.imageUrl} 
           isVerified={profile.isVerified}
           successRate={profile.successRate} // This prop might not be relevant here or could be quiz-specific
-          onQuizRequest={() => {}} // Button won't be shown here, or could be different
         />
         <div className="mt-6 text-center">
           <button 
