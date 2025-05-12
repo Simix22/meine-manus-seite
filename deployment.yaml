@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fanfix-clone-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fanfix-clone
+  template:
+    metadata:
+      labels:
+        app: fanfix-clone
+    spec:
+      containers:
+      - name: fanfix-clone
+        image: nextjs-app # This would typically be a Docker image name
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fanfix-clone-service
+spec:
+  selector:
+    app: fanfix-clone
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+

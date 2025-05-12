@@ -1,0 +1,29 @@
+import Link from 'next/link';
+import { Bell, Menu, Search } from 'lucide-react';
+
+const Header = () => {
+  return (
+    <header className="bg-white shadow-sm p-4 flex justify-between items-center md:hidden sticky top-0 z-50">
+      <div className="flex items-center">
+        <Link href="/" className="text-2xl font-bold text-purple-600">
+          FANFIX
+        </Link>
+      </div>
+      <div className="flex items-center space-x-4">
+        <button className="text-gray-600 hover:text-purple-600">
+          <Search size={24} />
+        </button>
+        <Link href="/notifications" className="text-gray-600 hover:text-purple-600 relative">
+          <Bell size={24} />
+          <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+        </Link>
+        <button className="text-gray-600 hover:text-purple-600">
+          <Menu size={24} />
+        </button>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
+
