@@ -1,8 +1,8 @@
-"use client";
+"use client"; // Required for usePathname
 
 import Link from 'next/link';
-import { Home, MessageSquare, Image, Bell, Settings, Info, LogOut, CheckCircle, X } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Home, MessageSquare, Image, Bell, Settings, Info, LogOut, CheckCircle, X, FileText } from 'lucide-react'; // Added FileText for Open Quizzes
+import { usePathname } from 'next/navigation'; // Import usePathname
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -10,13 +10,14 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, toggleMobileSidebar }) => {
-  const pathname = usePathname();
+  const pathname = usePathname(); // Get current path
 
   const navItems = [
     { href: "/", label: "Home", icon: Home, badge: null },
     { href: "/messages", label: "Messages", icon: MessageSquare, badge: 2 },
     { href: "/gallery", label: "Gallery", icon: Image, badge: null },
     { href: "/notifications", label: "Notifications", icon: Bell, badge: 3 },
+    { href: "/#open-quizzes-section", label: "Open Quizzes", icon: FileText, badge: null }, // New Open Quizzes link
   ];
 
   const bottomNavItems = [
@@ -30,6 +31,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, toggleMobileSidebar }) 
     md:translate-x-0 md:flex
     ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
   `;
+
+  const handleNavLinkClick = (href: string) => {
+    if (isMobileOpen) {
+      toggleMobileSidebar();
+    }
+    // If it's an anchor link on the current page, manually scroll
+    if (href.startsWith("/#") && pathname === "/") {
+      const elementId = href.substring(2);
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <aside className={sidebarClasses}>
@@ -46,12 +61,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, toggleMobileSidebar }) 
       </div>
       <nav className="flex-1 space-y-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href === "/gallery" && pathname.startsWith("/gallery"));
+          const isActive = pathname === item.href || 
+                         (item.href === "/gallery" && pathname.startsWith("/gallery")) || 
+                         (item.href === "/#open-quizzes-section" && pathname === "/"); // Consider active if on home and it's the anchor
           return (
             <Link
               key={item.label}
               href={item.href}
-              onClick={isMobileOpen ? toggleMobileSidebar : undefined} // Close sidebar on mobile nav click
+              onClick={() => handleNavLinkClick(item.href)}
               className={`flex items-center p-3 rounded-lg transition-colors ${
                 isActive
                   ? "font-semibold bg-purple-100 text-purple-600"
@@ -76,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, toggleMobileSidebar }) 
             <Link
               key={item.label}
               href={item.href}
-              onClick={isMobileOpen ? toggleMobileSidebar : undefined} // Close sidebar on mobile nav click
+              onClick={() => handleNavLinkClick(item.href)}
               className={`flex items-center p-3 rounded-lg transition-colors ${
                 isActive
                   ? "font-semibold bg-purple-100 text-purple-600"
