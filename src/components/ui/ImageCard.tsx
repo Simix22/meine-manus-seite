@@ -1,3 +1,5 @@
+import Image from 'next/image'; // Import next/image
+
 interface ImageCardProps {
   imageUrl: string;
   title?: string;
@@ -8,8 +10,8 @@ interface ImageCardProps {
 const ImageCard: React.FC<ImageCardProps> = ({ imageUrl, title, creator, price }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="w-full h-48 bg-gray-200">
-        <img src={imageUrl} alt={title || 'Gallery Image'} className="w-full h-full object-cover" />
+      <div className="w-full h-48 bg-gray-200 relative">
+        <Image src={imageUrl} alt={title || 'Gallery Image'} layout="fill" objectFit="cover" />
       </div>
       {(title || creator || price) && (
         <div className="p-4">

@@ -1,11 +1,12 @@
 import { Search, Plus } from 'lucide-react';
+import Image from 'next/image'; // Import next/image
 
 // Placeholder data for messages
 const messages = [
   {
     id: 1,
     sender: "rachelbrockman",
-    avatar: "/placeholder-avatar-1.jpg", // Replace with actual avatar path or component
+    avatar: "/placeholder-avatar-1.jpg",
     message: "hii Simon just checking innn I hav...",
     timestamp: "Yesterday",
     online: true,
@@ -14,7 +15,7 @@ const messages = [
   {
     id: 2,
     sender: "brookemonk",
-    avatar: "/placeholder-avatar-2.jpg", // Replace with actual avatar path or component
+    avatar: "/placeholder-avatar-2.jpg",
     message: "Happy Monday!! What was the highligh...",
     timestamp: "4w ago",
     online: false,
@@ -47,8 +48,7 @@ export default function MessagesPage() {
         {messages.map((msg) => (
           <div key={msg.id} className="flex items-center p-4 border-b last:border-b-0">
             <div className="relative mr-3">
-              {/* Placeholder for avatar image - ideally use Next/Image */}
-              <img src={msg.avatar} alt={msg.sender} className="w-12 h-12 rounded-full object-cover" />
+              <Image src={msg.avatar} alt={`${msg.sender} avatar`} width={48} height={48} className="rounded-full object-cover" />
               {msg.online && (
                 <span className="absolute bottom-0 right-0 block h-3 w-3 bg-green-500 rounded-full ring-2 ring-white"></span>
               )}

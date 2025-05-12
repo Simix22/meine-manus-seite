@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function SignOutPage() {
   return (
     <div>
@@ -5,7 +7,7 @@ export default function SignOutPage() {
       <div className="p-4 bg-white rounded-lg shadow min-h-[300px] flex flex-col items-center justify-center">
         <p className="text-gray-700 mb-4">You have been signed out.</p>
         {/* This is a placeholder. Actual sign-out logic would be implemented here. */}
-        <a href="/" className="text-purple-600 hover:underline">Return to Home</a>
+        <Link href="/" className="text-purple-600 hover:underline">Return to Home</Link>
       </div>
     </div>
   );
