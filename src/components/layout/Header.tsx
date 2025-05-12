@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Bell, Menu, Search, X } from 'lucide-react'; // Added X for close icon
+import { Bell, Menu, Search } from 'lucide-react'; // Removed unused X import
 
 interface HeaderProps {
   toggleMobileSidebar: () => void;

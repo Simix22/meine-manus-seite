@@ -1,6 +1,6 @@
 "use client"; // Required for useState and other client-side hooks
 
-import type { Metadata } from "next";
+// import type { Metadata } from "next"; // Removed unused Metadata import
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -9,13 +9,6 @@ import BottomNav from "@/components/layout/BottomNav";
 import { useState } from "react"; // Import useState
 
 const inter = Inter({ subsets: ["latin"] });
-
-// Metadata cannot be in a client component, so we keep it separate or handle it differently if RootLayout becomes 'use client'
-// For now, assuming metadata is static and can remain. If dynamic metadata is needed with 'use client', alternative approaches are necessary.
-// export const metadata: Metadata = { // This will cause an error if RootLayout is 'use client' directly
-//   title: "Fanfix Clone",
-//   description: "Image selling platform for content creators",
-// };
 
 export default function RootLayout({
   children,
