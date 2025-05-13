@@ -55,10 +55,11 @@ const mockUpdateUser = async (attributes: UpdateUserAttributes): Promise<{ data:
 };
 
 // Mock function to simulate changing password
-const mockUpdatePassword = async (newPassword: string) => {
+const mockUpdatePassword = async (newPassword: string): Promise<{ error: { message: string } | null }> => {
   await new Promise(resolve => setTimeout(resolve, 300));
   console.log("Mock updatePassword called. New password (not stored):", newPassword);
   // In a real app, you'd also need currentPassword for verification
+  // To test an error case, you could return: return { error: { message: "Mock password update failed" } };
   return { error: null }; 
 };
 
