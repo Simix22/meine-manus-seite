@@ -1,7 +1,7 @@
 "use client"; // Required for usePathname
 
 import Link from 'next/link';
-import { Home, MessageSquare, Image } from 'lucide-react';
+import { Home, MessageSquare, UserCircle } from 'lucide-react'; // Added UserCircle
 import { usePathname } from 'next/navigation'; // Import usePathname
 
 const BottomNav = () => {
@@ -10,7 +10,7 @@ const BottomNav = () => {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/messages", label: "Messages", icon: MessageSquare },
-    { href: "/gallery", label: "Gallery", icon: Image },
+    { href: "/profile", label: "My Profile", icon: UserCircle }, // Added My Profile
   ];
 
   return (

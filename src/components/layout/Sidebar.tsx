@@ -1,7 +1,7 @@
 "use client"; // Required for usePathname
 
 import Link from 'next/link';
-import { Home, MessageSquare, Image, Bell, Settings, Info, LogOut, CheckCircle, X, FileText } from 'lucide-react'; // Added FileText for Open Quizzes
+import { Home, MessageSquare, Bell, Settings, Info, LogOut, CheckCircle, X, FileText, UserCircle } from 'lucide-react'; // Added UserCircle for My Profile
 import { usePathname } from 'next/navigation'; // Import usePathname
 
 interface SidebarProps {
@@ -15,7 +15,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, toggleMobileSidebar }) 
   const navItems = [
     { href: "/", label: "Home", icon: Home, badge: null },
     { href: "/messages", label: "Messages", icon: MessageSquare, badge: 2 },
-    { href: "/gallery", label: "Gallery", icon: Image, badge: null },
+    { href: "/profile", label: "My Profile", icon: UserCircle, badge: null }, // Added My Profile
     { href: "/notifications", label: "Notifications", icon: Bell, badge: 3 },
     { href: "/#open-quizzes-section", label: "Open Quizzes", icon: FileText, badge: null }, // New Open Quizzes link
   ];
