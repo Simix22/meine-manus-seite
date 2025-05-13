@@ -1,32 +1,29 @@
 "use client";
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react'; // Added Suspense
 import ProfileCard from '@/components/ui/ProfileCard';
-import OnboardingQuiz from '@/components/ui/OnboardingQuiz'; // Re-using the onboarding quiz for now
+import OnboardingQuiz from '@/components/ui/OnboardingQuiz';
 
-// Define a type for a profile (can be expanded)
 interface Profile {
-  id: string; // Changed to string to match potential query param
+  id: string;
   username: string;
   imageUrl: string;
   isVerified?: boolean;
   successRate?: number;
 }
 
-// Placeholder for fetching profile data based on ID
 const getProfileById = (id: string | null): Profile | null => {
   if (!id) return null;
-  // In a real app, this would fetch from an API or a larger dataset
   const profiles: Profile[] = [
     { id: "crazyjamjam", username: "crazyjamjam", imageUrl: "/placeholder-avatar-1.jpg", isVerified: true, successRate: 23 },
     { id: "sadiesink", username: "sadiesink", imageUrl: "/placeholder-avatar-2.jpg", isVerified: false, successRate: 45 },
     { id: "modelX", username: "modelX", imageUrl: "/placeholder-avatar-1.jpg", isVerified: true, successRate: 60 },
   ];
-  return profiles.find(p => p.username === id) || null; // Assuming id passed is username for now
+  return profiles.find(p => p.username === id) || null;
 };
 
-export default function OpenQuizzesPage() {
+function OpenQuizzesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const profileId = searchParams.get('profileId');
@@ -40,8 +37,7 @@ export default function OpenQuizzesPage() {
       const fetchedProfile = getProfileById(profileId);
       setProfile(fetchedProfile);
     } else {
-      // Handle case where no profileId is provided, maybe redirect or show error
-      router.push('/'); // Redirect to home if no profileId
+      router.push('/');
     }
   }, [profileId, router]);
 
@@ -52,10 +48,7 @@ export default function OpenQuizzesPage() {
   const handleQuizComplete = () => {
     setQuizPassed(true);
     setQuizStarted(false);
-    // Simulate adding to friends list and enabling chat
-    // In a real app, this would involve API calls and state updates
     console.log(`Quiz passed for ${profile?.username}. Added to friends. Chat enabled.`);
-    // Potentially store this in localStorage or context to reflect in Messages page
     const friends = JSON.parse(localStorage.getItem("friendsList") || "[]");
     if (profile && !friends.includes(profile.username)) {
       friends.push(profile.username);
@@ -91,8 +84,6 @@ export default function OpenQuizzesPage() {
   }
 
   if (quizStarted) {
-    // Re-using the OnboardingQuiz component for simplicity
-    // In a real app, this would be a specific quiz for the profile
     return <OnboardingQuiz onQuizComplete={handleQuizComplete} />;
   }
 
@@ -104,7 +95,7 @@ export default function OpenQuizzesPage() {
           username={profile.username} 
           imageUrl={profile.imageUrl} 
           isVerified={profile.isVerified}
-          successRate={profile.successRate} // This prop might not be relevant here or could be quiz-specific
+          successRate={profile.successRate}
         />
         <div className="mt-6 text-center">
           <button 
@@ -116,6 +107,14 @@ export default function OpenQuizzesPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OpenQuizzesPage() {
+  return (
+    <Suspense fallback={<div className="p-4 text-center">Loading page...</div>}>
+      <OpenQuizzesContent />
+    </Suspense>
   );
 }
 
