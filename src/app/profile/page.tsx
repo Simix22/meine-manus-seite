@@ -223,7 +223,7 @@ export default function ProfilePage() {
   if (!session?.user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-100 py-6 sm:py-12">
+    <div className="min-h-screen bg-gray-100 py-6 sm:py-12 pb-24 sm:pb-12"> {/* Added pb-24 for mobile bottom padding */}
       <div className="container mx-auto max-w-lg px-4">
         <div className="text-center mb-8">
           <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500 bg-gray-200 flex items-center justify-center group">
