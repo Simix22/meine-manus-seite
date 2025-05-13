@@ -3,15 +3,33 @@
 
 import { redirect } from 'next/navigation';
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { ChevronDown, ChevronUp, Edit3, Mail, Lock, Image as ImageIcon, CreditCard, LogOut, User, Camera } from 'lucide-react';
+import { ChevronDown, ChevronUp, Edit3, Lock, Image as ImageIcon, CreditCard, LogOut, User, Camera } from 'lucide-react';
+import Image from 'next/image';
+
+interface MockUser {
+  id: string;
+  email: string;
+  username: string;
+  profile_picture_url: string | null;
+}
+
+interface MockSession {
+  user: MockUser | null;
+}
+
+interface UpdateUserAttributes {
+  username?: string;
+  email?: string;
+  profile_picture_url?: string;
+}
 
 // Mock function to simulate checking Supabase session
-const getMockSessionClient = async () => {
+const getMockSessionClient = async (): Promise<MockSession | null> => {
   await new Promise(resolve => setTimeout(resolve, 50));
   const sessionData = typeof window !== "undefined" ? localStorage.getItem("mockSession") : null;
-  if (sessionData) return JSON.parse(sessionData);
+  if (sessionData) return JSON.parse(sessionData) as MockSession;
   // Default to logged in for easier testing during development of this page
-  const defaultSession = { user: { id: '123', email: 'user@example.com', username: 'TestUser', profile_picture_url: null } }; 
+  const defaultSession: MockSession = { user: { id: '123', email: 'user@example.com', username: 'TestUser', profile_picture_url: null } }; 
   if (typeof window !== "undefined") localStorage.setItem("mockSession", JSON.stringify(defaultSession));
   return defaultSession;
 };
@@ -24,14 +42,14 @@ const mockSignOut = async () => {
 };
 
 // Mock function to simulate updating user attributes
-const mockUpdateUser = async (attributes: any) => {
+const mockUpdateUser = async (attributes: UpdateUserAttributes): Promise<{ data: { user: MockUser | null } | null, error: { message: string } | null }> => {
   await new Promise(resolve => setTimeout(resolve, 300));
   console.log("Mock updateUser called with:", attributes);
   const currentSession = await getMockSessionClient();
   if (currentSession?.user) {
     const updatedUser = { ...currentSession.user, ...attributes };
     if (typeof window !== "undefined") localStorage.setItem("mockSession", JSON.stringify({ user: updatedUser }));
-    return { data: { user: updatedUser }, error: null };
+    return { data: { user: updatedUser as MockUser }, error: null };
   }
   return { data: null, error: { message: "User not found" } };
 };
@@ -45,7 +63,7 @@ const mockUpdatePassword = async (newPassword: string) => {
 };
 
 // Mock function to simulate uploading to Supabase Storage
-const mockUploadProfilePicture = async (file: File) => {
+const mockUploadProfilePicture = async (file: File): Promise<{ data: { path: string } | null, error: { message: string } | null }> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   const mockUrl = URL.createObjectURL(file); // Simulate a URL from storage
   console.log("Mock uploadProfilePicture. File:", file.name, "Mock URL:", mockUrl);
@@ -92,7 +110,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, icon: Ic
 
 export default function ProfilePage() {
   const [sessionLoading, setSessionLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<MockSession | null>(null);
   
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -133,7 +151,7 @@ export default function ProfilePage() {
       setFeedbackMessage({ type: "error", message: `Failed to update profile: ${error.message}` });
     } else {
       setFeedbackMessage({ type: "success", message: "Profile updated successfully!" });
-      if (data?.user) setSession({ ...session, user: data.user }); // Update local session display
+      if (data?.user && session) setSession({ ...session, user: data.user }); // Update local session display
     }
   };
 
@@ -190,7 +208,7 @@ export default function ProfilePage() {
         if(currentSession?.user) {
             const updatedUser = { ...currentSession.user, profile_picture_url: data.path };
             if (typeof window !== "undefined") localStorage.setItem("mockSession", JSON.stringify({ user: updatedUser }));
-            setSession({user: updatedUser});
+            setSession({user: updatedUser as MockUser});
             setProfilePicturePreview(data.path);
         }
       }
@@ -209,7 +227,7 @@ export default function ProfilePage() {
         <div className="text-center mb-8">
           <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500 bg-gray-200 flex items-center justify-center group">
             {profilePicturePreview ? (
-              <img src={profilePicturePreview} alt="Profile" className="w-full h-full object-cover" />
+              <Image src={profilePicturePreview} alt="Profile" width={128} height={128} className="w-full h-full object-cover" />
             ) : (
               <ImageIcon size={64} className="text-gray-400" />
             )}
