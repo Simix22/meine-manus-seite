@@ -41,7 +41,7 @@ const placeholderChatHistory: Record<string, ChatMessage[]> = {
         { id: "c1-m1", senderId: "1", text: "Hey there!", timestamp: "10:00 AM", type: "text", avatarUrl: "/placeholder-avatar.png" },
         { id: "c1-m2", senderId: "user", text: "Hi Kinsley! How are you?", timestamp: "10:01 AM", type: "text" },
         { id: "c1-m3", senderId: "1", text: "Doing great! You?", timestamp: "10:02 AM", type: "text", avatarUrl: "/placeholder-avatar.png" },
-        { id: "c1-m4", senderId: "1", text: "I don"t turn you on?", timestamp: "13:16", type: "text", avatarUrl: "/placeholder-avatar.png" },
+        { id: "c1-m4", senderId: "1", text: "I don't turn you on?", timestamp: "13:16", type: "text", avatarUrl: "/placeholder-avatar.png" },
     ],
     "2": [
         { id: "c2-m1", senderId: "user", text: "Hello Oda!", timestamp: "11:00 AM", type: "text" },

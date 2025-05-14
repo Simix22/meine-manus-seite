@@ -28,7 +28,7 @@ const placeholderMessages: MessageItem[] = [
     senderName: "Kinsley",
     senderHandle: "kinsleyalyse",
     avatarUrl: "/placeholder-avatar.png",
-    messagePreview: "I don"t turn you on?",
+    messagePreview: "I don't turn you on?",
     timestamp: "13:16",
     isOnline: true,
     isVerified: true,
